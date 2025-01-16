@@ -1,0 +1,18 @@
+# Пропуск локального интерфейса
+set skip on lo
+set block-policy drop
+set fingerprints "/etc/pf.os"
+
+# Определение внешнего интерфейса
+ext_if = "en0"
+
+# Таблица заблокированных доменов
+table <zapret_domains> { \
+    7tv.app, 7tv.io, 10tv.app \
+}
+
+# Перенаправление DNS-запросов к заблокированным доменам на локальный DNS-сервер
+rdr pass on $ext_if inet proto { tcp, udp } from any to <zapret_domains> port 53 -> 127.0.0.1 port 53
+
+# Перенаправление всего трафика к заблокированным доменам через внешний шлюз
+pass out on $ext_if route-to ($ext_if 192.168.1.1) inet from any to <zapret_domains> keep state

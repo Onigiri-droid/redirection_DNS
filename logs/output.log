@@ -1,0 +1,33 @@
+#!/bin/bash
+LOG_FILE="$(dirname "$0")/logs/output.log"
+{
+  echo "[$(date)] Запуск обхода блокировок..."
+  if sudo pfctl -f "$(dirname "$0")/config/pf_rules.txt"; then
+    echo "[$(date)] Правила PF успешно загружены."
+  else
+    echo "[$(date)] Ошибка загрузки правил PF." >&2
+  fi
+  if sudo pfctl -e; then
+    echo "[$(date)] PF успешно включен."
+  else
+    echo "[$(date)] Ошибка включения PF." >&2
+  fi
+  echo "[$(date)] Обход блокировок запущен."
+} >> "$LOG_FILE" 2>&1
+
+No ALTQ support in kernel
+ALTQ related functions disabled
+pf disabled
+Обход блокировок остановлен!
+No ALTQ support in kernel
+ALTQ related functions disabled
+pf disabled
+Обход блокировок остановлен!
+No ALTQ support in kernel
+ALTQ related functions disabled
+pf disabled
+Обход блокировок остановлен!
+No ALTQ support in kernel
+ALTQ related functions disabled
+pf disabled
+Обход блокировок остановлен!
